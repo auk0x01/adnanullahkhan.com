@@ -1,6 +1,6 @@
 ---
 title: Sandwich Challenge Writeup
-date: 2025-02-17
+date: 2025-02-17 10:03
 categories: [ctf, web]
 tags: [web, ctf]    # TAG names should be lowercase
 ---
