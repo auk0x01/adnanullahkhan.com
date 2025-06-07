@@ -349,7 +349,7 @@ If the user is not admin, it simply loads the template `userdashboard.html` whic
     </div>
   </nav>
   <br><br><br><br><br><br><br>
-  {% block content %}
+  {% abc content %}
   <div class="container">
     <h2>Welcome back, {{ user.username }}</h2>
     <a href="/logout" class="btn btn-dark rounded-0">Logout</a>
@@ -378,7 +378,7 @@ If the user is not admin, it simply loads the template `userdashboard.html` whic
       </table>
     </div>
   </div>
-  {% endblock %}
+  {% endabc %}
   <footer class="text-center text-lg-start fixed-bottom" style="background-color: #212529; color: #ffffff8c;">
         <div class="text-center p-3">
             Copyright © 2024
