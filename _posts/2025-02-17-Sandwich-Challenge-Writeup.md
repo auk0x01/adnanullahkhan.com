@@ -6,7 +6,7 @@ tags: [web, ctf]    # TAG names should be lowercase
 ---
 
 
-I recently uploaded a web exploitation challenge on github. Here is the writeup for that challenge. First, I would recommend that you try the challenge yourself: https://github.com/auk0x01/sandwich
+I recently uploaded a web exploitation challenge on github. Here is the writeup for that challenge. First, I would recommend that you try the challenge yourself: ![https://github.com/auk0x01/sandwich](https://github.com/auk0x01/sandwich)
 
 ## Analyzing the source code
 
