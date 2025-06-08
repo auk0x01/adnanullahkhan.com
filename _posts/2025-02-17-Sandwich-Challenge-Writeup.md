@@ -50,7 +50,7 @@ Before taking a look at the application code, let's first dynamically analyze th
 
 On index page, we have a login form. Trying SQL injection don't work.
 
-`![img](assets/1.png)`
+![img](/images/1.png)
 
 There is also a registration form on server. We can register a user successfully.
 
