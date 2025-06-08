@@ -327,7 +327,7 @@ def dashboard():
 
 If the user is not admin, it simply loads the template `userdashboard.html` which simply prints welcome message with the username. If the user is admin, then it loads the template `admindashboard.html`, but now we see that it is also passing *contact_data* variable as keyword argument. *contact_data* variable contains all contact data which users submit through contact form. Looking at `admindashboard.html` file:
 
-
+![img](/images/16.png)
 
 We can see that *desc* field from the form data is vulnerable to XSS. *safe* filter in jinja2 marks the string as safe and allows HTML. We can see a comment as well saying that developers intend to accept HTML in description. Nice.
 
