@@ -50,23 +50,23 @@ Before taking a look at the application code, let's first dynamically analyze th
 
 On index page, we have a login form. Trying SQL injection don't work.
 
-![img](assets/1.png)
+`![img](assets/1.png)`
 
 There is also a registration form on server. We can register a user successfully.
 
-![img](assets/2.png)
+`![img](assets/2.png)`
 
 Let's login with our registered user.
 
-![img](assets/3.png)
+`![img](assets/3.png)`
 
 Hmmm, it seems that the application is still under development and there is no functionality in the user dashboard except that *Reset Password* section. Clicking on that, we get a popup with some instructions.
 
-![img](assets/4.png)
+`![img](assets/4.png)`
 
 On main page, there was *Contact* page. We can post contact queries there. Maybe our queries are being sent to administrators.
 
-![img](assets/5.png)
+`![img](assets/5.png)`
 
 Now, let's take a look at the application source code.
 
@@ -383,7 +383,7 @@ Let's enter a basic payload which will try to reach our server.
 
 When we enter this payload and submit our contact query. We do not get any request on our server, why? When we look at the html code of `/contact`, we see the reason behind this.
 
-![img](assets/6.png)
+`![img](assets/6.png)`
 
 When we submit our contact query, this `submit()` function is being called. This function first sanitizes the contents of message input box and then send a POST request with all three values (name, email and message) to `/contact` endpoint.
 
@@ -451,7 +451,7 @@ print("[+] Second reset code: " + rc2)
 
 Let's run this script
 
-![img](assets/7.png)
+`![img](assets/7.png)`
 
 This script printed 2 UUIDs for user `test` and since we triggered reset code for *admin* between these 2 UUIDs as well, admin's reset code should also be present between these 2 UUIDs.
 
@@ -461,7 +461,7 @@ Exploit Link: https://raw.githubusercontent.com/Lupin-Holmes/sandwich/refs/heads
 
 This script accepts 2 UUIDs as arguments and an optional argument for output file with `-o` flag.
 
-![img](assets/8.png)
+`![img](assets/8.png)`
 
 As we can see, this script generated around 8.6 million UUIDs and stored them in `uuids.txt` file. The reset code for our *admin* user must also be in this file.
 
@@ -490,7 +490,7 @@ If the password has successfully been changed, it will return a message `Passwor
 
 Let's launch our brute force attack with *ffuf* tool. We are sending data "password=1" to change *admin* password to "1". We also gave 1000 threads to ffuf tool to make the exploit faster. `-mw 2` is for showing only those entries which returned 2 words in the response.
 
-![img](assets/9.png)
+`![img](assets/9.png)`
 
 After launching the brute force, we see that our exploit is sending around 400 requests/second and the total number of UUIDs generated is around 8.6 million. At this rate, it will take around 5.9 hours for our exploit to try all UUIDs in the list which is a very long duration. **The challenge is pretty much solved at this point, the only problem is that our current exploit will take a lot of time to complete (maybe 5-6 hours)**. We need to minimize this time. Remember we also got a Note from the company in the challenge description saying.
 
@@ -498,13 +498,13 @@ After launching the brute force, we see that our exploit is sending around 400 r
 
 Hmm, let's see where is the admin's UUID usually present in the generated UUIDs list. For this, download challenge files locally and modify the `/resetcode` endpoint a bit. Let's just print the resetcode on our terminals as well when we get a request. 
 
-![img](assets/10.png)
+`![img](assets/10.png)`
 
 After this, just run the server locally with `sudo ./build-docker.sh`.
 
 When we launch our previous python exploit, our server gets these requests and we see 3 requests on `/resetcode` endpoint which makes sense since 2 requests were sent from `test` user and one from `admin` user.
 
-![img](assets/11.png)
+`![img](assets/11.png)`
 
 We see these 3 reset codes being generated:
 
@@ -514,7 +514,7 @@ We see these 3 reset codes being generated:
 
 Let's generate all UUIDs between 2 UUIDs of our user again to see where the reset code of *admin* user lies in those UUIDs.
 
-![img](assets/12.png)
+`![img](assets/12.png)`
 
 Reset code of *admin* user is on line number 6850795 and is very close to second reset code (last UUID). Is the admin's reset code always present at very last? Yes, if we keep restarting our server and see where our admin's UUID is, we see that it is present in the last 2 million UUIDs everytime. 
 
@@ -560,7 +560,7 @@ These 3 requests are the backbone of our exploit, first request to get 1st reset
 
 Let's see the number of statements server execute during receiving these 3 requests.
 
-![img](assets/13.png)
+`![img](assets/13.png)`
 
 We can clearly see that the time duration between admin's reset code and 2nd reset code of user is much smaller than the time duration between admin's reset code and 1st reset code of user.
 
@@ -576,7 +576,7 @@ tac uuids.txt > reversed_uuids.txt
 
 We launch our brute force attack once again and this time, we found a valid reset code in under 1 hour.
 
-![img](assets/14.png)
+`![img](assets/14.png)`
 
 As we have set admin's password to '1', we can now send request to `/protected` endpoint after first authenticating as *admin*.
 
@@ -647,7 +647,7 @@ print(session.post('http://'+IP+':'+PORT+'/protected', data='password=1', header
 
 After running the exploit, it took around 1 hour for the exploit to complete and give us the flag.
 
-![img](assets/15.png)
+`![img](assets/15.png)`
 
 This challenge emphasizes on a fact that a security professional may still find insecure and outdated UUIDs in different applications during their bug bounty/pentesting journey.
 
